@@ -38,6 +38,13 @@ def custom_score(game, player):
     """
 
     # TODO: finish this function!
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    #return 
+
     raise NotImplementedError
 
 
