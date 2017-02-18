@@ -43,7 +43,10 @@ def custom_score(game, player):
 
     if game.is_winner(player):
         return float("inf")
-    #return 
+    #return float(own_moves - opp_moves)
+    #return float(1/(opp_moves+1)+own_moves)
+    #return float(own_moves^2 - opp_moves^2
+    #return float(1/(opp_moves+1)*own_moves)
 
     raise NotImplementedError
 
