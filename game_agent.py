@@ -238,7 +238,7 @@ class CustomPlayer:
                     player_score = score
         return player_score, (-1,-1)
                    
-        # TODO: finish this function!
+        #TODO: finish this function!
         #raise NotImplementedError
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
@@ -281,6 +281,57 @@ class CustomPlayer:
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise Timeout()
+	
+        legal_moves, best_move = game.get_legal_moves(), (-1, -1)
+        if not legal_moves:
+            return self.score(game, self), best_move
+        
+        references = {"alpha": alpha,
+                      "beta": beta,
+                      "best_move": best_move}
+	
+        def get_check_fn(maximizing_player):
+            if maximizing_player:
+                def _fn(score, move):
+                    if score >= references["beta"]:
+                        # Prune the rest of moves
+                        return score, move
+                    if score > references["alpha"]:
+                        # Update the value of alpha
+                        references["alpha"], references["best_move"] = score, move
+                    return None, None
+            else:
+                def _fn(score, move):
+                    if score <= references["alpha"]:
+                        # Prune the rest of moves
+                        return score, move
+                    if score < references["beta"]:
+                        # Update the value of beta
+                        references["beta"], references["best_move"] = score, move
+                    return None, None
+            return _fn
+        check_fn = get_check_fn(maximizing_player)
 
+        if depth == 1:
+            # When reaching to the leaf
+            for move in legal_moves:
+                score, move = check_fn(self.score(game.forecast_move(move), self), move)
+                if move:
+                    return score, move
+        else:
+            # Go down next level
+            for move in legal_moves:
+                score, _ = self.alphabeta(game.forecast_move(move),
+                                          depth-1,
+                                          references["alpha"],
+                                          references["beta"],
+                                          not maximizing_player)
+                score, move = check_fn(score, move)
+                if move:
+                    return score, move
+        if maximizing_player:
+            return references["alpha"], references["best_move"]
+        else:
+            return references["beta"], references["best_move"]
         # TODO: finish this function!
         raise NotImplementedError
