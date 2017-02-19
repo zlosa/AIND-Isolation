@@ -22,10 +22,10 @@ def custom_score(game, player):
 
     own_moves = len(game.get_legal_moves(player))
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    ###return float(own_moves - opp_moves) #70.00% #61.43%
-    ###return float(1/(opp_moves+1)+own_moves) #64.29%
+    return float(own_moves - opp_moves) 
+    ###return float(1/(opp_moves+1)+own_moves) 
     ###return float(own_moves^2 - opp_moves^2)
-    return (own_moves-(0.1+game.height*game.height-len(game.get_blank_spaces()))*opp_moves) / (len(game.get_blank_spaces())+own_moves-opp_moves)
+    #return (own_moves-(0.1+game.height*game.height-len(game.get_blank_spaces()))*opp_moves) / (len(game.get_blank_spaces())+own_moves-opp_moves)
 
 
 class CustomPlayer:
