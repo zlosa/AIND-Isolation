@@ -142,7 +142,23 @@ class CustomPlayer:
         #best_move = legal_moves[0]
         #best_move = (-1, -1)
         
+        depth = 0
         try:
+            #depth = 1
+            while depth < float("inf"):
+                if self.method == 'alphabeta':
+                    best_move = self.alphabeta(game, depth)[1]
+                elif self.method == 'minimax':
+                    best_move = self.minimax(game, depth)[1]                
+                depth += 1
+                
+            if not self.iterative:
+                if self.method == 'alphabeta':
+                    best_move = self.alphabeta(game, self.search_depth)[1]
+                elif self.method == 'minimax':
+                    best_move = self.minimax(game, self.search_depth)[1]
+                
+                
             # The search method call (alpha beta or minimax) should happen in
             # here in order to avoid timeout. The try/except block will
             # automatically catch the exception raised by the search method
