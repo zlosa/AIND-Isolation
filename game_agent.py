@@ -43,12 +43,13 @@ def custom_score(game, player):
 
     if game.is_winner(player):
         return float("inf")
-    #return float(own_moves - opp_moves)
+    
+    return float(own_moves - opp_moves)
     #return float(1/(opp_moves+1)+own_moves)
     #return float(own_moves^2 - opp_moves^2
     #return float(1/(opp_moves+1)*own_moves)
 
-    raise NotImplementedError
+    #raise NotImplementedError
 
 
 class CustomPlayer:
@@ -134,8 +135,12 @@ class CustomPlayer:
         # move from the game board (i.e., an opening book), or returning
         # immediately if there are no legal moves
         
-        if not legal_moves: #len(legal_moves) == 0:
+        if not legal_moves: #or len(legal_moves) == 0:
             return (-1, -1)
+        
+        best_move = legal_moves[random.randint(0, len(legal_moves) - 1)]
+        #best_move = legal_moves[0]
+        #best_move = (-1, -1)
         
         try:
             # The search method call (alpha beta or minimax) should happen in
@@ -149,7 +154,8 @@ class CustomPlayer:
             pass
 
         # Return the best move from the last completed search iteration
-        raise NotImplementedError
+        return best_move
+        #raise NotImplementedError
 
     def minimax(self, game, depth, maximizing_player=True):
         """Implement the minimax search algorithm as described in the lectures.
