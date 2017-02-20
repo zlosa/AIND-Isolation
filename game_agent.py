@@ -121,8 +121,8 @@ class CustomPlayer:
 
         if depth > 0:
             for move in game.get_legal_moves():
-                new_state = game.forecast_move(move)
-                s = self.alphabeta(new_state, depth - 1, alpha, beta, not maximizing_player)[0]
+                new_g = game.forecast_move(move)
+                s = self.alphabeta(new_g, depth - 1, alpha, beta, not maximizing_player)[0]
 
                 if maximizing_player:
 
